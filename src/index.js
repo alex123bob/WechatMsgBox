@@ -1,8 +1,8 @@
-import HelloWorld from 'components/HelloWorld';
+import Main from 'components/Main';
 import 'main.css';
 
 const main = async () => {
-    HelloWorld();
+    Main();
 }
 
 main().then(() => console.log('Started'));
