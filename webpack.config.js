@@ -18,12 +18,24 @@ const config = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+          test: /\.html$/,
+          use: [
+              {
+                loader: 'html-loader',
+                options: {
+                    minimize: false
+                }
+            }
+        ]
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-        hash: true
+        hash: true,
+        template: './src/index.html'
     })
   ],
   resolve: {
