@@ -1,0 +1,17 @@
+body {
+    margin: 5px;
+    min-height: 100vh;
+    background-color: beige;
+    display: flex;
+    flex-direction: column;
+}
+
+.messageBoxPanel {
+    flex: 1;
+}
+
+.msginput {
+    textarea {
+        width: 99%;
+    }
+}
