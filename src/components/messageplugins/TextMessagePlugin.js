@@ -9,6 +9,8 @@ export class TextMessagePlugin extends MessagePlugin {
 
     messageType = 'Text'
 
+    extraCls = ''
+
     sanitizeHTML(str) {
         let div = document.createElement('div')
         div.textContent = str
@@ -35,7 +37,8 @@ export class TextMessagePlugin extends MessagePlugin {
         let securedContent = this.sanitizeHTML(msg.content)
         const tplHTML = tplFunc({
             displayContent: securedContent,
-            msgId: msgId
+            msgId: msgId,
+            extraCls: this.extraCls
         })
         container.innerHTML += `<br />${tplHTML}`
         return this.generateMsgEntity(msgId, securedContent)

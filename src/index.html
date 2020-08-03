@@ -7,6 +7,7 @@
     <title>WechatMsgBox</title>
 </head>
 <body>
+  <button class="systemMsgBtn" style="position: fixed; right: 100px; top: 4px;">System Msg</button>
   <!-- <canvas style="border:1px solid grey;" id="mycanvas"> -->
   <script id="msgBoxPanel" type="text/x-lodash-template">
     <div class="messageBoxPanel">
@@ -21,7 +22,7 @@
   </script>
   
   <script id="textMessage" type="text/x-lodash-template">
-    <div class="textMessage" msgId="<%= msgId %>">
+    <div class="textMessage <%= extraCls %>" msgId="<%= msgId %>">
       <%= displayContent %>
     </div>
   </script>

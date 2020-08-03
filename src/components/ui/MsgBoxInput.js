@@ -22,6 +22,12 @@ class MsgBoxInput {
                 content: val
             }
         }
+        else if (val.fromSystem) {
+            return {
+                MessageType: 'SystemText',
+                content: val.val
+            }
+        }
         else {
             return {
                 MessageType: 'Text',
@@ -79,6 +85,7 @@ class MsgBoxInput {
      * @param {Function} getInputSource receive input source
      */
     launch(getInputSource) {
+        const me = this
         const inputField = document.querySelector('.msginput')
         const textArea = inputField.querySelector('textarea')
         const enterKeyPressedStream = fromEvent(textArea, 'keyup').pipe(filter(e => e.keyCode === 13))
@@ -100,7 +107,16 @@ class MsgBoxInput {
         // Listen to regular keyboard typing event.
         mergedEnterStream.subscribe(onNext, onError, onComplete)
 
+        // Listen to text area paste event
         this.onPaste(getInputSource)
+
+        // Trigger system message
+        document.querySelector('.systemMsgBtn').addEventListener('click', function() {
+            getInputSource(me.processInputSource({
+                fromSystem: true,
+                val: 'Bob has left current chatting group'
+            }))
+        }, false)
     }
 }
 

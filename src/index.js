@@ -13,9 +13,7 @@ const main = async () => {
     MsgBox.launch({
         adapters: MessagePlugins
     })
-    MsgBoxInput.launch((val) => {
-        MsgBox.receiveMsg(val)
-    })
+    MsgBoxInput.launch(MsgBox.receiveMsg.bind(MsgBox))
 }
 
 main().then(() => console.log('Started'))
