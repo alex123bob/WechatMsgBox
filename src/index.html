@@ -7,21 +7,28 @@
     <title>WechatMsgBox</title>
 </head>
 <body>
+  <!-- <canvas style="border:1px solid grey;" id="mycanvas"> -->
   <script id="msgBoxPanel" type="text/x-lodash-template">
     <div class="messageBoxPanel">
-      This is place holder of box panel
-    </div>
-  </script>
-
-  <script id="textMessage" type="text/x-lodash-template">
-    <div class="textMessage" msgId="<%= msgId %>">
-      <%= displayContent %>
+      
     </div>
   </script>
 
   <script id="msgBoxInput" type="text/x-lodash-template">
     <div class="msginput">
       <textarea></textarea>
+    </div>
+  </script>
+  
+  <script id="textMessage" type="text/x-lodash-template">
+    <div class="textMessage" msgId="<%= msgId %>">
+      <%= displayContent %>
+    </div>
+  </script>
+
+  <script id="imageMessage" type="text/x-lodash-template">
+    <div class="imageMessage"  msgId="<%= msgId %>">
+      <%= displayContent %>
     </div>
   </script>
 

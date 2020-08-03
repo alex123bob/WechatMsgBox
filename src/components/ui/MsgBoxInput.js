@@ -16,10 +16,62 @@ class MsgBoxInput {
     }
 
     processInputSource(val) {
-        return {
-            MessageType: 'Text',
-            content: val
+        if (val instanceof Blob) {
+            return {
+                MessageType: 'Image',
+                content: val
+            }
         }
+        else {
+            return {
+                MessageType: 'Text',
+                content: val
+            }
+        }
+    }
+
+    _retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
+        if(pasteEvent.clipboardData == false){
+            if(typeof(callback) == "function"){
+                callback(undefined)
+            }
+        }
+    
+        let items = pasteEvent.clipboardData.items
+    
+        if(items == undefined){
+            if(typeof(callback) == "function"){
+                callback(undefined)
+            }
+        }
+    
+        for (let i = 0; i < items.length; i++) {
+            // Skip content if not image
+            if (items[i].type.indexOf("image") == -1) continue
+            // Retrieve image on clipboard as blob
+            let blob = items[i].getAsFile()
+    
+            if(typeof(callback) == "function"){
+                callback(blob)
+            }
+        }
+    }
+
+    onPaste(getInputSource) {
+        const inputField = document.querySelector('.msginput')
+        const textArea = inputField.querySelector('textarea')
+        let me = this
+
+        textArea.addEventListener('paste', function(e) {
+            e.preventDefault()
+            me._retrieveImageFromClipboardAsBlob(e, function(imageBlob){
+                // If there's an image, display it in the canvas
+                if(imageBlob){
+                    let processedInputSource = me.processInputSource(imageBlob)
+                    getInputSource(processedInputSource)
+                }
+            })
+        }, false)
     }
 
     /**
@@ -35,11 +87,9 @@ class MsgBoxInput {
 
         const onNext = (val) => {
         }
-
         const onError = (err) => {
 
         }
-
         const onComplete = () => {
             let val = this.processInputSource(textArea.value)
             getInputSource(val)
@@ -47,8 +97,10 @@ class MsgBoxInput {
             textArea.focus()
             mergedEnterStream.subscribe(onNext, onError, onComplete)
         }
-
+        // Listen to regular keyboard typing event.
         mergedEnterStream.subscribe(onNext, onError, onComplete)
+
+        this.onPaste(getInputSource)
     }
 }
 

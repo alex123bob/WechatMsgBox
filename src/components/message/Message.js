@@ -4,11 +4,10 @@ export default class Message {
      * @param {[content: string]: string, [id: string]: string, [createTime: string]: Date} msgObj Init message object
      */
     constructor(msgObj) {
-        const {content, createTime, id, displayContent} = msgObj
+        const {content, createTime, id} = msgObj
         this.content = content
         this.createTime = createTime
         this.id = id
-        this.displayContent = displayContent
     }
 
     /**

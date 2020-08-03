@@ -16,13 +16,17 @@ export default class MessagePlugin {
         // This functionality is suppsed to be implemented in child class
     }
 
+    render() {
+        
+    }
+
     /**
      * Register message adapter into message box.
      */
     Mount() {
         return {
             [`${this.messageType}`]: {
-                processMessage: this.processMessage.bind(this)
+                render: this.render.bind(this)
             }
         }
     }

@@ -31,16 +31,12 @@ class MsgBoxPanel {
         }
     }
 
-    renderMsg(msg) {
-        document.querySelector('.messageBoxPanel').innerHTML += msg.displayContent
-    }
-
     receiveMsg(msg) {
-        let msgEntity = this.msgAdapters[msg.MessageType].processMessage(msg)
-        this.renderMsg(msgEntity)
+        let container = document.querySelector('.messageBoxPanel')
         this._msgQueue.push(
-            msgEntity
+            this.msgAdapters[msg.MessageType].render(msg, container)
         )
+        console.log(this._msgQueue)
     }
 
     removeMessageAdapter(adapter) {

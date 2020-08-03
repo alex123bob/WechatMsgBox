@@ -14,25 +14,30 @@ export class TextMessagePlugin extends MessagePlugin {
         div.textContent = str
         return div.innerHTML
     }
+
+    generateMsgEntity(msgId, content) {
+        return new TextMessage({
+            content: content,
+            id: msgId,
+            createTime: new Date()
+        })
+    }
     
-    generateContent(msgId, content) {
+    getTextMessageTpl() {
         const displayContentTpl = document.querySelector('#textMessage').innerHTML
         const tplFunc = _.template(displayContentTpl)
-        const tplHTML = tplFunc({
-            displayContent: content,
-            msgId: msgId
-        })
-        return tplHTML
+        return tplFunc
     }
 
-    processMessage(msg) {
-        let securedContent = this.sanitizeHTML(msg.content)
+    render(msg, container) {
         let msgId = Date.now()
-        return new TextMessage ({
-            content: securedContent,
-            id: msgId,
-            createTime: new Date(),
-            displayContent: this.generateContent(msgId, securedContent)
+        const tplFunc = this.getTextMessageTpl()
+        let securedContent = this.sanitizeHTML(msg.content)
+        const tplHTML = tplFunc({
+            displayContent: securedContent,
+            msgId: msgId
         })
+        container.innerHTML += `<br />${tplHTML}`
+        return this.generateMsgEntity(msgId, securedContent)
     }
 }
