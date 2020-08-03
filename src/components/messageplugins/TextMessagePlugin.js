@@ -32,12 +32,13 @@ export class TextMessagePlugin extends MessagePlugin {
     }
 
     render(msg, container) {
-        let msgId = Date.now()
+        let msgId = `Date.now()`
         const tplFunc = this.getTextMessageTpl()
         let securedContent = this.sanitizeHTML(msg.content)
         const tplHTML = tplFunc({
             displayContent: securedContent,
             msgId: msgId,
+            msgType: this.messageType,
             extraCls: this.extraCls
         })
         container.innerHTML += `<br />${tplHTML}`

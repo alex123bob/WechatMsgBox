@@ -24,11 +24,29 @@ class MsgBoxPanel {
         document.body.innerHTML += tplHTML
     }
 
+    onDbClick() {
+        const me = this
+        let container = document.querySelector('.messageBoxPanel')
+        container.addEventListener('dblclick', function(evt) {
+            const msgEntity = evt.target
+            const msgId = msgEntity.getAttribute('msgId')
+            const msgType = msgEntity.getAttribute('msgType')
+            if (msgId && msgType) {
+                if (me.msgAdapters[msgType].recall(msgId, me._msgQueue)) {
+                    me.msgAdapters['SystemText'].render({
+                        content: 'One message has been recalled'
+                    }, container)
+                }
+            }
+        }, false)
+    }
+
     launch(initObj) {
         const {adapters} = initObj
         if (adapters) {
             this.registerMessageAdapters(adapters)
         }
+        this.onDbClick()
     }
 
     receiveMsg(msg) {

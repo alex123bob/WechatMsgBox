@@ -22,8 +22,9 @@ export class ImageMessagePlugin extends MessagePlugin {
         let canvas = document.createElement("canvas")
         container.appendChild(canvas)
         container.appendChild(document.createElement('br'))
-        let msgId = Date.now()
+        let msgId = `Date.now()`
         canvas.setAttribute('msgId', msgId)
+        canvas.setAttribute('msgType', 'Image')
         let ctx = canvas.getContext('2d')
         // Create an image to render the blob on the canvas
         let img = new Image()
