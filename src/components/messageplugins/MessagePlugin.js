@@ -21,7 +21,9 @@ export default class MessagePlugin {
      */
     Mount() {
         return {
-            [`${this.messageType}`]: this.processMessage
+            [`${this.messageType}`]: {
+                processMessage: this.processMessage.bind(this)
+            }
         }
     }
 

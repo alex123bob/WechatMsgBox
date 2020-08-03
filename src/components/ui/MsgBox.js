@@ -1,4 +1,3 @@
-import {getPost} from 'api'
 import * as _ from 'lodash'
 
 class MsgBoxPanel {
@@ -30,6 +29,18 @@ class MsgBoxPanel {
         if (adapters) {
             this.registerMessageAdapters(adapters)
         }
+    }
+
+    renderMsg(msg) {
+        document.querySelector('.messageBoxPanel').innerHTML += msg.displayContent
+    }
+
+    receiveMsg(msg) {
+        let msgEntity = this.msgAdapters[msg.MessageType].processMessage(msg)
+        this.renderMsg(msgEntity)
+        this._msgQueue.push(
+            msgEntity
+        )
     }
 
     removeMessageAdapter(adapter) {

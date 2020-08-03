@@ -1,5 +1,6 @@
 import MessagePlugin from './MessagePlugin'
 import TextMessage from '../message/Text'
+import * as _ from 'lodash'
 
 export class TextMessagePlugin extends MessagePlugin {
     constructor(){
@@ -14,12 +15,24 @@ export class TextMessagePlugin extends MessagePlugin {
         return div.innerHTML
     }
     
+    generateContent(msgId, content) {
+        const displayContentTpl = document.querySelector('#textMessage').innerHTML
+        const tplFunc = _.template(displayContentTpl)
+        const tplHTML = tplFunc({
+            displayContent: content,
+            msgId: msgId
+        })
+        return tplHTML
+    }
 
-    processMessage(txt) {
+    processMessage(msg) {
+        let securedContent = this.sanitizeHTML(msg.content)
+        let msgId = Date.now()
         return new TextMessage ({
-            content: this.sanitizeHTML(txt),
-            id: Date.now(),
-            createTime: new Date()
+            content: securedContent,
+            id: msgId,
+            createTime: new Date(),
+            displayContent: this.generateContent(msgId, securedContent)
         })
     }
 }

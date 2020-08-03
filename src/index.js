@@ -1,5 +1,5 @@
-import MsgBox from 'components/ui/MsgBox'
-import MsgBoxInput from 'components/ui/MsgBoxInput'
+import MsgBox from './components/ui/MsgBox'
+import MsgBoxInput from './components/ui/MsgBoxInput'
 import 'main.scss'
 
 import MessagePlugins from './components/messageplugins/index'
@@ -14,7 +14,9 @@ const main = async () => {
     MsgBox.launch({
         adapters: MessagePlugins
     })
-    MsgBoxInput.launch()
+    MsgBoxInput.launch((val) => {
+        MsgBox.receiveMsg(val)
+    })
 }
 
 main().then(() => console.log('Started'))
