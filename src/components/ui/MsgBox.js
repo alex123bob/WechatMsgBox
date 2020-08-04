@@ -10,10 +10,27 @@ class MsgBoxPanel {
      */
     _msgQueue = []
 
-    msgAdapters = {}
+    _msgAdapters = {}
 
     constructor() {
         
+    }
+
+    _onDbClick() {
+        const me = this
+        let container = document.querySelector('.messageBoxPanel')
+        container.addEventListener('dblclick', function(evt) {
+            const msgEntity = evt.target
+            const msgId = msgEntity.getAttribute('msgId')
+            const msgType = msgEntity.getAttribute('msgType')
+            if (msgId && msgType) {
+                if (me._msgAdapters[msgType].recall(msgId, me._msgQueue)) {
+                    me._msgAdapters['SystemText'].render({
+                        content: 'One message has been recalled'
+                    }, container)
+                }
+            }
+        }, false)
     }
 
     optimizedRender() {
@@ -26,7 +43,6 @@ class MsgBoxPanel {
     render() {
         const tplFunc = _.template(`
             <div class="messageBoxPanel">
-        
             </div>
         `)
         const tplHTML = tplFunc()
@@ -34,52 +50,43 @@ class MsgBoxPanel {
         document.body.innerHTML += tplHTML
     }
 
-    onDbClick() {
-        const me = this
-        let container = document.querySelector('.messageBoxPanel')
-        container.addEventListener('dblclick', function(evt) {
-            const msgEntity = evt.target
-            const msgId = msgEntity.getAttribute('msgId')
-            const msgType = msgEntity.getAttribute('msgType')
-            if (msgId && msgType) {
-                if (me.msgAdapters[msgType].recall(msgId, me._msgQueue)) {
-                    me.msgAdapters['SystemText'].render({
-                        content: 'One message has been recalled'
-                    }, container)
-                }
-            }
-        }, false)
-    }
-
     launch(initObj) {
         const {adapters} = initObj
         if (adapters) {
             this.registerMessageAdapters(adapters)
         }
-        this.onDbClick()
+        this._onDbClick()
     }
 
+    /**
+     * This functionality is exposed to input field.
+     * @param {Object} msg message instance
+     */
     receiveMsg(msg) {
         let container = document.querySelector('.messageBoxPanel')
         this._msgQueue.push(
-            this.msgAdapters[msg.MessageType].render(msg, container)
+            this._msgAdapters[msg.MessageType].render(msg, container)
         )
         console.log(this._msgQueue)
     }
 
+    /**
+     * Remove message adapter by simply calling adapter's unmount functionality, to let itself detached from message box panel.
+     * @param {Object} adapter message adapter
+     */
     removeMessageAdapter(adapter) {
-        this.msgAdapters = {
-            ...this.msgAdapters,
+        this._msgAdapters = {
+            ...this._msgAdapters,
             ...adapter.Unmount()
         }
     }
 
     /**
      * Register adapter in inital phase.
-     * @param {Array} msgAdapters adapter collection
+     * @param {Array} _msgAdapters adapter collection
      */
-    registerMessageAdapters(msgAdapters) {
-        this.msgAdapters = msgAdapters.reduce((prev, adapter) => {
+    registerMessageAdapters(_msgAdapters) {
+        this._msgAdapters = _msgAdapters.reduce((prev, adapter) => {
             return {
                 ...prev,
                 ...adapter.Mount()
