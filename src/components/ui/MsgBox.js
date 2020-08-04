@@ -16,6 +16,13 @@ class MsgBoxPanel {
         
     }
 
+    optimizedRender() {
+        // TODO
+        // When the number of dom/message nodes is increased exponentially,
+        // we shall optimize the rendition of message nodes within container.
+        // So scrolling to load fixed amount of message nodes is a must.
+    }
+
     render() {
         const tplFunc = _.template(`
             <div class="messageBoxPanel">
