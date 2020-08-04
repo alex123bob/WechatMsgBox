@@ -3,8 +3,6 @@ import MsgBoxInput from './components/ui/MsgBoxInput'
 import 'main.scss'
 
 import MessagePlugins from './components/messageplugins/index'
-// import Message from './components/message/Message'
-import MessagePlugin from './components/messageplugins/MessagePlugin'
 
 
 const main = async () => {
@@ -16,4 +14,7 @@ const main = async () => {
     MsgBoxInput.launch(MsgBox.receiveMsg.bind(MsgBox))
 }
 
-main().then(() => console.log('Started'))
+main().then(() => {
+    // we can put some logics here after page's rendered
+    console.log('Started')
+})

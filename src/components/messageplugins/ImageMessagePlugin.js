@@ -8,6 +8,11 @@ export class ImageMessagePlugin extends MessagePlugin {
 
     messageType = 'Image'
 
+    /**
+     * Image render scale, scale down 33% by default.
+     */
+    imageScale = 0.3
+
     generateMsgEntity(msgId, content) {
         return new ImageMessage({
             content: content,
@@ -17,12 +22,13 @@ export class ImageMessagePlugin extends MessagePlugin {
     }
 
     render(msg, container) {
+        const self = this
         super.render(msg, container)
         const imageBlob = msg.content
         let canvas = document.createElement("canvas")
         container.appendChild(canvas)
         container.appendChild(document.createElement('br'))
-        let msgId = `Date.now()`
+        let msgId = Date.now()
         canvas.setAttribute('msgId', msgId)
         canvas.setAttribute('msgType', 'Image')
         let ctx = canvas.getContext('2d')
@@ -31,12 +37,16 @@ export class ImageMessagePlugin extends MessagePlugin {
 
         // Once the image loads, render the img on the canvas
         img.onload = function(){
+            const w = this.width * self.imageScale
+            const h = this.height * self.imageScale
             // Update dimensions of the canvas with the dimensions of the image
-            canvas.width = this.width * 0.3
-            canvas.height = this.height * 0.3
+            canvas.width = w
+            canvas.height = h
 
             // Draw the image
-            ctx.drawImage(img, 0, 0, this.width * 0.3, this.height * 0.3)
+            ctx.drawImage(img, 0, 0, w, h)
+            const data = ctx.getImageData(0, 0, w, h)
+            ctx.putImageData(data, 0, 0)
         }
 
         // Crossbrowser support for URL
@@ -46,6 +56,6 @@ export class ImageMessagePlugin extends MessagePlugin {
         // namely the original Blob
         img.src = URLObj.createObjectURL(imageBlob)
 
-        return this.generateMsgEntity(imageBlob)
+        return this.generateMsgEntity(msgId, imageBlob)
     }
 }

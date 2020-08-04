@@ -8,41 +8,5 @@
 </head>
 <body>
   <button class="systemMsgBtn" style="position: fixed; right: 100px; top: 4px;">System Msg</button>
-  <!-- <canvas style="border:1px solid grey;" id="mycanvas"> -->
-  <script id="msgBoxPanel" type="text/x-lodash-template">
-    <div class="messageBoxPanel">
-      
-    </div>
-  </script>
-
-  <script id="msgBoxInput" type="text/x-lodash-template">
-    <div class="msginput">
-      <textarea></textarea>
-    </div>
-  </script>
-  
-  <script id="textMessage" type="text/x-lodash-template">
-    <div class="textMessage <%= extraCls %>" msgId="<%= msgId %>" msgType="<%= msgType %>">
-      <%= displayContent %>
-    </div>
-  </script>
-
-  <script id="imageMessage" type="text/x-lodash-template">
-    <div class="imageMessage"  msgId="<%= msgId %>" msgType="<%= msgType %>">
-      <%= displayContent %>
-    </div>
-  </script>
-
-    <script id="comment-template" type="text/x-lodash-template">
-        <div class="comment">
-          <div class="comment-body"><%= comment %></div>
-          <div class="commenter">
-            <p>
-              <span class="posted-by">Posted By: </span>
-              <%= commenter %>
-            </p>
-          </div>
-        </div>
-    </script>
 </body>
 </html>

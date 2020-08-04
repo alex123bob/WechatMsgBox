@@ -17,8 +17,11 @@ class MsgBoxPanel {
     }
 
     render() {
-        const panelTpl = document.querySelector('#msgBoxPanel').innerHTML
-        const tplFunc = _.template(panelTpl)
+        const tplFunc = _.template(`
+            <div class="messageBoxPanel">
+        
+            </div>
+        `)
         const tplHTML = tplFunc()
 
         document.body.innerHTML += tplHTML

@@ -9,7 +9,7 @@ export class TextMessagePlugin extends MessagePlugin {
 
     messageType = 'Text'
 
-    extraCls = ''
+    extraCls = 'textMessage'
 
     sanitizeHTML(str) {
         let div = document.createElement('div')
@@ -26,13 +26,16 @@ export class TextMessagePlugin extends MessagePlugin {
     }
     
     getTextMessageTpl() {
-        const displayContentTpl = document.querySelector('#textMessage').innerHTML
-        const tplFunc = _.template(displayContentTpl)
+        const tplFunc = _.template(`
+            <div class="<%= extraCls %>" msgId="<%= msgId %>" msgType="<%= msgType %>">
+                <%= displayContent %>
+            </div>
+        `)
         return tplFunc
     }
 
     render(msg, container) {
-        let msgId = `Date.now()`
+        let msgId = Date.now()
         const tplFunc = this.getTextMessageTpl()
         let securedContent = this.sanitizeHTML(msg.content)
         const tplHTML = tplFunc({

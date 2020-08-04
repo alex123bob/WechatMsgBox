@@ -8,8 +8,11 @@ class MsgBoxInput {
     }
 
     render() {
-        const panelTpl = document.querySelector('#msgBoxInput').innerHTML
-        const tplFunc = _.template(panelTpl)
+        const tplFunc = _.template(`
+            <div class="msginput">
+                <textarea></textarea>
+            </div>
+        `)
         const tplHTML = tplFunc()
 
         document.body.innerHTML += tplHTML
@@ -36,6 +39,11 @@ class MsgBoxInput {
         }
     }
 
+    /**
+     * Extract image blob from paste event.
+     * @param {Object} pasteEvent paste event
+     * @param {Function} callback 
+     */
     _retrieveImageFromClipboardAsBlob(pasteEvent, callback) {
         if(pasteEvent.clipboardData == false){
             if(typeof(callback) == "function"){
@@ -63,6 +71,10 @@ class MsgBoxInput {
         }
     }
 
+    /**
+     * Listen to data from clipboard.
+     * @param {Function} getInputSource Callback function which is used to process input data.
+     */
     onPaste(getInputSource) {
         const inputField = document.querySelector('.msginput')
         const textArea = inputField.querySelector('textarea')
@@ -82,7 +94,7 @@ class MsgBoxInput {
 
     /**
      * Launch input editor
-     * @param {Function} getInputSource receive input source
+     * @param {Function} getInputSource callback for the purpose of retrieving input source, it's supposed to be passed from message renderer(AKA message dialogue box here) instance.
      */
     launch(getInputSource) {
         const me = this

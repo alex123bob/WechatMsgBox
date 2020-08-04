@@ -26,7 +26,7 @@ export default class MessagePlugin {
         let index = -1
         let msgEntity = null
         msgQueue.forEach((msgObj, i) => {
-            if (msgObj.id === msgId) {
+            if (msgObj.id == msgId) {
                 index = i
             }
         })

@@ -19,6 +19,15 @@ body {
     }
 }
 
+.textMessage {
+    border: 1px solid #ccc;
+    max-width: 300px;
+    border-radius: 10px;
+    font-size: 26px;
+    word-break: break-all;
+}
+
 .systemTextMessage {
     color: gray;
+    text-align: center;
 }
